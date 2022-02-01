@@ -1,4 +1,4 @@
-name: "DockerHub Build And Push"
+name: "Build-Push-Docker"
 description: "GitHub Action For Docker Hub Image Build And Push"
 author: "bds1959 <murali@banyandata.com>"
 branding:
