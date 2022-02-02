@@ -5,13 +5,13 @@ branding:
   icon: "package"
   color: "green"
 inputs:
-  container-registry-url:
+  container-registryurl:
     description: "Docker Registry Url, eg: docker.io"
     required: true
   repository-name:
     description: "Docker Image Repository Name, eg: demo-app"
     required: true
-  docker-user-name:
+  docker-username:
     description: "Docker Login UserName, from: https://hub.docker.com/"
     required: true
   docker-password:
@@ -24,10 +24,10 @@ inputs:
     description: "Docker File Directory, Default Current Directory (.)"
     required: false
     default: "."
-  aws-secret-access-key:
+  aws-secretaccesskey:
     description: 'AWS credentials used to login to eks.'
     required: true
-  aws-access-key-id:
+  aws-accesskeyid:
     description: 'AWS credentials used to login to eks.'
     required: true
   aws-region:
@@ -37,7 +37,7 @@ inputs:
   cluster-name:
     description: 'EKS cluster name.'
     required: true
-  cluster-role-arn:
+  cluster-rolearn:
     description: 'EKS cluster admin role arn.'
     required: false
   config-files:
@@ -81,21 +81,21 @@ runs:
     image: 'Dockerfile'
     env:
         DOCKER_PASSWORD: ${{ inputs.docker-password }}
-        DOCKER_USER_NAME: ${{ inputs.docker-user-name }}
-        CONTAINER_REGISTRY_URL: ${{ inputs.container-registry-url }}
+        DOCKER_USERNAME: ${{ inputs.docker-username }}
+        CONTAINER_REGISTRYURL: ${{ inputs.container-registryurl }}
         REPOSITORY_NAME: ${{ inputs.repository-name }}
         IMAGE_VERSION: ${{ inputs.image-version }}
         DOCKER_FILE: ${{ inputs.dockerfile }}
         AWS_REGION: ${{ inputs.aws-region }}
-        AWS_SECRET_ACCESS_KEY: ${{ inputs.aws-secret-access-key }}
-        AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
+        AWS_SECRETACCESSKEY: ${{ inputs.aws-secretaccesskey }}
+        AWS_ACCESSKEYID: ${{ inputs.aws-accesskeyid }}
         CLUSTER_NAME: ${{ inputs.cluster-name }}
-        CLUSTER_ROLE_ARN: ${{ inputs.cluster-role-arn }}
-        DEPLOY_CONFIG_FILES: ${{ inputs.config-files }}
+        CLUSTER_ROLEARN: ${{ inputs.cluster-rolearn }}
+        DEPLOY_CONFIGFILES: ${{ inputs.config-files }}
         DEPLOY_NAMESPACE: ${{ inputs.namespace }}
         DEPLOY_VALUES: ${{ inputs.values }}
         DEPLOY_NAME: ${{ inputs.name }}
-        DEPLOY_CHART_PATH: ${{ inputs.chart-path }}
+        DEPLOY_CHARTPATH: ${{ inputs.chart-path }}
         DEPLOY_ATOMIC:  ${{ inputs.atomic }}
         DEPLOY_FORCE:  ${{ inputs.force }}        
         TIMEOUT: ${{ inputs.timeout }}

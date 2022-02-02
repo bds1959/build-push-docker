@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USER_NAME $CONTAINER_REGISTRY_URL --password-stdin
+echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USERNAME $CONTAINER_REGISTRYURL --password-stdin
 image_name=$REPOSITORY_NAME:$IMAGE_VERSION
-image_url=$CONTAINER_REGISTRY_URL/$DOCKER_USER_NAME/$REPOSITORY_NAME:$IMAGE_VERSION
+image_url=$CONTAINER_REGISTRYURL/$DOCKER_USERNAME/$REPOSITORY_NAME:$IMAGE_VERSION
 docker_file=$DOCKER_FILE
 if [[ "${docker_file}" = "" ]]; then
     docker_file="."
