@@ -14,13 +14,14 @@ RUN apt -y update && apt -y install curl \
 
 #RUN chmod 666 /var/run/docker.sock:/var/run/docker.sock
     
-#COPY deploy.sh /usr/local/bin/deploy
+COPY deploy.sh /usr/local/bin/deploy
 
-COPY deploy.sh /deploy.sh
-CMD [ "sh","-c", "/deploy.sh" ]
+#COPY deploy.sh /deploy.sh
+#CMD [ "sh","-c", "/deploy.sh" ]
 
 #COPY docker-run.sh /docker-run.sh
 
-#RUN chmod +x /docker-run.sh
+RUN chmod +x /usr/local/bin/deploy
 
+CMD deploy
 #ENTRYPOINT ["/docker-run.sh"]
