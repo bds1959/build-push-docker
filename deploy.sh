@@ -1,18 +1,42 @@
 #!/usr/bin/env bash
-
-echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USERNAME $CONTAINER_REGISTRYURL --password-stdin
-image_name=$REPOSITORY_NAME:$IMAGE_VERSION
-image_url=$CONTAINER_REGISTRYURL/$DOCKER_USERNAME/$REPOSITORY_NAME:$IMAGE_VERSION
 docker_file=$DOCKER_FILE
-if [[ "${docker_file}" = "" ]]; then
+if [[ "${docker_file}" = "" ]]
+  then
     docker_file="."
+  else
+    docker_file="-f ${docker_file} ."
 fi
-docker build -t ${image_name} ${docker_file}
-docker tag ${image_name} ${image_url}
-docker push ${image_url}
+echo "$DOCKER_PASSWORD" > "$HOME"/docker-login_password.text
+DOCKER_REGISTRY_URL="$REGISTRY_URL"
+DOCKER_IMAGE_NAME="$1"
+DOCKER_IMAGE_TAG="$2"
+REGISTRY=${DOCKER_REGISTRY_URL}
+NAMESPACE=${DOCKER_NAMESPACE}
+IMAGE_NAME=${DOCKER_IMAGE_NAME}
+IMAGE_TAG=${DOCKER_IMAGE_TAG}
+sh -c "cat "$HOME"/docker-login_password.text | docker login --username=$DOCKER_USERNAME $REGISTRY --password-stdin"
+sh -c "docker build -t $IMAGE_NAME ${docker_file}"
+REGISTRY_IMAGE="$NAMESPACE/$IMAGE_NAME"
+sh -c "docker tag $IMAGE_NAME $REGISTRY_IMAGE:$DOCKER_IMAGE_TAG"
+sh -c "docker push $DOCKER_REGISTRY_URL/$REGISTRY_IMAGE:$IMAGE_TAG"
 
 #output
-echo "::set-output name=image_url::${image_url}"
+echo "::set-output name=image_url::$REGISTRY_IMAGE:$IMAGE_TAG"
+
+
+#echo $DOCKER_PASSWORD | docker login --username=$DOCKER_USERNAME $CONTAINER_REGISTRYURL --password-stdin
+#image_name=$REPOSITORY_NAME:$IMAGE_VERSION
+#image_url=$CONTAINER_REGISTRYURL/$DOCKER_USERNAME/$REPOSITORY_NAME:$IMAGE_VERSION
+#docker_file=$DOCKER_FILE
+#if [[ "${docker_file}" = "" ]]; then
+#    docker_file="."
+#fi
+#docker build -t ${image_name} ${docker_file}
+#docker tag ${image_name} ${image_url}
+#docker push ${image_url}
+
+#output
+#echo "::set-output name=image_url::${image_url}"
 
 # Login to Kubernetes Cluster.
 if [ -n "$CLUSTER_ROLE_ARN" ]; then

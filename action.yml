@@ -5,25 +5,29 @@ branding:
   icon: "package"
   color: "green"
 inputs:
-  container-registryurl:
-    description: "Docker Registry Url, eg: docker.io"
-    required: true
-  repository-name:
-    description: "Docker Image Repository Name, eg: demo-app"
-    required: true
-  docker-username:
-    description: "Docker Login UserName, from: https://hub.docker.com/"
-    required: true
-  docker-password:
-    description: "Docker Login Access Token, from: https://hub.docker.com/"
-    required: true
-  image-version:
-    description: "Image Build Version"
-    required: true
-  dockerfile:
-    description: "Docker File Directory, Default Current Directory (.)"
-    required: false
-    default: "."
+        #  container-registryurl:
+        #    description: "Docker Registry Url, eg: docker.io"
+        #    required: true
+        #  repository-name:
+        #    description: "Docker Image Repository Name, eg: demo-app"
+        #    required: true
+        #  docker-username:
+        #    description: "Docker Login UserName, from: https://hub.docker.com/"
+        #    required: true
+        #  docker-password:
+        #    description: "Docker Login Access Token, from: https://hub.docker.com/"
+        #    required: true
+        #  image-version:
+        #    description: "Image Build Version"
+        #    required: true
+        #  dockerfile:
+        #    description: "Docker File Directory, Default Current Directory (.)"
+        #    required: false
+        #    default: "."
+  image_name: 
+    description: "Docker Image Name"
+  image_tag:
+    description: "Docker Image Tag"
   aws-secretaccesskey:
     description: 'AWS credentials used to login to eks.'
     required: true
@@ -79,13 +83,16 @@ outputs:
 runs:
     using: 'docker'
     image: 'Dockerfile'
+    args:
+      - ${{ inputs.image_name }}
+      - ${{ inputs.image_tag }}
     env:
-        DOCKER_PASSWORD: ${{ inputs.docker-password }}
-        DOCKER_USERNAME: ${{ inputs.docker-username }}
-        CONTAINER_REGISTRYURL: ${{ inputs.container-registryurl }}
-        REPOSITORY_NAME: ${{ inputs.repository-name }}
-        IMAGE_VERSION: ${{ inputs.image-version }}
-        DOCKER_FILE: ${{ inputs.dockerfile }}
+            #        DOCKER_PASSWORD: ${{ inputs.docker-password }}
+            #        DOCKER_USERNAME: ${{ inputs.docker-username }}
+            #        REGISTRY_URL: ${{ inputs.registry-url }}
+            #        IMAGE_NAME: ${{ inputs.image-name }}
+            #        IMAGE_TAG: ${{ inputs.image-tag }}
+            #        DOCKER_FILE: ${{ inputs.dockerfile }}
         AWS_REGION: ${{ inputs.aws-region }}
         AWS_SECRETACCESSKEY: ${{ inputs.aws-secretaccesskey }}
         AWS_ACCESSKEYID: ${{ inputs.aws-accesskeyid }}
