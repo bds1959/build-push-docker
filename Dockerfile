@@ -17,7 +17,7 @@ RUN apt -y update && apt -y install curl \
 #COPY deploy.sh /usr/local/bin/deploy
 
 COPY deploy.sh /deploy.sh
-CMD [ "/deploy.sh" ]
+CMD [ "sh","-c", "/deploy.sh" ]
 
 #COPY docker-run.sh /docker-run.sh
 
